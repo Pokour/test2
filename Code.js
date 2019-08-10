@@ -4,6 +4,19 @@
 function doGet(event){
 var result = {};
 
+// event.parameter.role;
+// event.parameter.requestStatus;
+// event.parameter.userPointer;
+// event.parameter.rolePointer;
+// event.parameter.library;
+
+  // Check if the role is granted or not
+
+  // use switch to go to the role
+
+  //access the data from respective sheets and form an object
+
+  
   if(event.parameter.role == "student"){
   result = {0 : "Student recieved"};
   return ContentService.createTextOutput(JSON.stringify(result))
