@@ -1,9 +1,16 @@
 // For Help goto  https://developers.google.com/apps-script/reference/spreadsheet/sheet
 // Use a function that wil be trigered when there is a request made to this Script there are doGet() and doPost() functions.
 
-function doGet(){
-log(sheettrigger('Library'));
+function doGet(event){
+var result = {};
 
+  if(event.parameter.role == "student"){
+  result = {0 : "Student recieved"};
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+
+return ContentService.createTextOutput(result);
 }
 
 // using a function to connect to the spreadsheet using predefined functions for sheets
@@ -14,7 +21,6 @@ function sheettrigger(sheetName){
   var spreadSheet = app.openById(sheetId);
   var workSheet = spreadSheet.getSheetByName(sheetName);
   var dataObj = {};
-  
   
   return ;
 }
