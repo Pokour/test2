@@ -3,27 +3,35 @@
 
 function doGet(event){
 var result = {};
-
-// event.parameter.role;
-// event.parameter.requestStatus;
-// event.parameter.userPointer;
-// event.parameter.rolePointer;
-// event.parameter.library;
-
-  // Check if the role is granted or not
-
-  // use switch to go to the role
-
-  //access the data from respective sheets and form an object
-
   
+  result.user = {};
+  result.role = {add1: "flat 11B",add2: "Jayadarsini Residency"};
+  result.library= [];
+  result.workshop= {to:"hello", ti: "go"};
+  result.courses= {};
+
   if(event.parameter.role == "student"){
-  result = {0 : "Student recieved"};
+  //result = {0 : "Student recieved"};
+  
   return ContentService.createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  
+  if(event.parameter.role == "collaborator"){
+  //result = {0 : "Student recieved"};
+  
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  
+  if(event.parameter.role == "organisation"){
+  //result = {0 : "Student recieved"};
+  
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
 
-return ContentService.createTextOutput(result);
+//return ContentService.createTextOutput(result);
 }
 
 // using a function to connect to the spreadsheet using predefined functions for sheets
