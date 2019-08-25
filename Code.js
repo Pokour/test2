@@ -12,7 +12,7 @@
   
   var result = {};  
   result.user = {};
-  result.role = rows.getValues();
+  result.role = {};
   result.library= [];
   result.workshop= {to:"hello", ti: "go"};
   result.courses= {};
@@ -30,12 +30,24 @@
   
   function doGet(event){
     // This gets the data from sheet as a multi array using sheet.getRange(row, column, numRows, numColumns) 
-    var heading = sheet.getRange(1, 1, 1, lastColumn).getValues();
-    heading = [].concat.apply([], heading);
+    var headingMultiarray = sheet.getRange(1, 1, 1, lastColumn).getValues();
+    heading = headingMultiarray[0];
 
-    var userdetails = rows.getValues();
-    userdetails = [].concat.apply([], userdetails);
+    var userdetailsMultiarray = sheet.getRange(2,1,1,lastColumn).getValues();
+    userdetails = userdetailsMultiarray[0];
+    Logger.log(userdetails);
     result.test = makeObject(heading, userdetails);
+
+
+    if(event.parameter.action == "read"){
+      // role , requestStatus , userPointer , rolePointer , library
+    }
+    else if(event.parameter.action == "update"){
+
+    }
+    else if(event.parameter.action == "write"){
+
+    }
 
     if (event.parameter.role == "student") {
       return ContentService.createTextOutput(JSON.stringify(result))
