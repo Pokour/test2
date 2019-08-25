@@ -30,16 +30,16 @@
   
   function doGet(event){
     // This gets the data from sheet as a multi array using sheet.getRange(row, column, numRows, numColumns) 
-    var heading = sheet.getRange(1,1,1,lastColumn).getValues();
-    heading = [].concat.apply([],heading);
-    
+    var heading = sheet.getRange(1, 1, 1, lastColumn).getValues();
+    heading = [].concat.apply([], heading);
+
     var userdetails = rows.getValues();
-    userdetails = [].concat.apply([],userdetails);
-   result.test = makeObject(heading,userdetails);
-    
-    if(event.parameter.role == "student"){
+    userdetails = [].concat.apply([], userdetails);
+    result.test = makeObject(heading, userdetails);
+
+    if (event.parameter.role == "student") {
       return ContentService.createTextOutput(JSON.stringify(result))
-      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
     }
     
     if(event.parameter.role == "collaborator"){
