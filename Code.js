@@ -8,13 +8,13 @@
   var sheet  = ss.getSheetByName(sheetName);
   var lastRow = sheet.getLastRow();
   var lastColumn = sheet.getLastColumn();
-  var rows = sheet.getRange(2, 1,1,lastColumn);
+  var rows = sheet.getRange(2, 1, 1, lastColumn);
   
   var result = {};  
   result.user = {};
   result.role = {};
   result.library= [];
-  result.workshop= {to:"hello", ti: "go"};
+  result.workshop= {};
   result.courses= {};
  
   // This function takes 2 arrays and convert into object with key and value from arrays and return object
@@ -33,14 +33,27 @@
     var headingMultiarray = sheet.getRange(1, 1, 1, lastColumn).getValues();
     heading = headingMultiarray[0];
 
-    var userdetailsMultiarray = sheet.getRange(2,1,1,lastColumn).getValues();
+    var userdetailsMultiarray = sheet.getRange(2, 1, 1, lastColumn).getValues();
     userdetails = userdetailsMultiarray[0];
     Logger.log(userdetails);
     result.test = makeObject(heading, userdetails);
+    
+    // Converting the Library Pointer string to an array of integer
+      
+    var strVale = "130,235,342,124";
+    var strArr = strVale.split(',');
+    var intArr = [];
+    for(i=0; i < strArr.length; i++){
+      intArr[i] = parseInt( strArr[i] ).toFixed(0) ;
+      }
+      Logger.log(strArr);
+      Logger.log(intArr);
 
 
     if(event.parameter.action == "read"){
       // role , requestStatus , userPointer , rolePointer , library
+
+      
     }
     else if(event.parameter.action == "update"){
 
