@@ -37,6 +37,17 @@ function getRowData (pointer, targetSheet){
   return makeObject(heading,rowData);
 }
 
+function getlibraryData(library){
+  // Converting the Library Pointer string to an array of integer      
+  var strVale = "130,235,342,124";
+  var strArr = strVale.split(',');
+  var intArr = [];
+  for (i = 0; i < strArr.length; i++) {
+    intArr[i] = parseInt(strArr[i]).toFixed(0);
+  }
+  Logger.log(strArr);
+  Logger.log(intArr);
+}
 
 function doGet(event) {
 
@@ -47,8 +58,9 @@ function doGet(event) {
 
   if (event.parameter.action == "read") {
     // role , requestStatus , userPointer , rolePointer , library
-    result.user = getRowData(userRow,"user");
-    result.role = getRowData(roleRow,role);  
+    result.user     = getRowData(userRow,"user");
+    result.role     = getRowData(roleRow,role);
+    result.library  = getlibraryData(library);
   }
 
   else if (event.parameter.action == "update") {
@@ -57,19 +69,6 @@ function doGet(event) {
   else if (event.parameter.action == "write") {
 
   }
-
-  // Converting the Library Pointer string to an array of integer      
-  var strVale = "130,235,342,124";
-  var strArr = strVale.split(',');
-  var intArr = [];
-  for (i = 0; i < strArr.length; i++) {
-    intArr[i] = parseInt(strArr[i]).toFixed(0);
-  }
-  Logger.log(strArr);
-  Logger.log(intArr);
-
-
-
 
   if (event.parameter.role == "student") {
     return ContentService.createTextOutput(JSON.stringify(result))
