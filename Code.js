@@ -24,29 +24,31 @@ function makeObject(keys, values) {
 
 function getRowData (pointer, targetSheet){
   let sheet = ss.getSheetByName(targetSheet);
-  let lastRow = sheet.getLastRow();
+  // let lastRow = sheet.getLastRow();
   let lastColumn = sheet.getLastColumn();
-  let multiArray = sheet
+  let rowHeadingMultiA = sheet
+    .getRange(1,1,1,lastColumn)
+    .getValues();
+  let heading = rowHeadingMultiA[0];
+  let rowDataMultiA = sheet
     .getRange(pointer, 1, 1, lastColumn)
     .getValues();
-  rowData = multiArray[0];
-  return rowData;
+  let rowData = rowDataMultiA[0];
+  return makeObject(heading,rowData);
 }
 
 
 function doGet(event) {
 
+  let userRow = event.parameter.userPointer;
+  let roleRow = event.parameter.rolePointer;
+  let library = event.parameter.library;
+  let role    = event.parameter.role;
+
   if (event.parameter.action == "read") {
     // role , requestStatus , userPointer , rolePointer , library
-    let userRow = event.parameter.userPointer;
-    let roleRow = event.parameter.rolePointer;
-    let libraryPointer = event.parameter.library;
-    let role = event.parameter.role;
-    
-    let userKey = 
-
-    result.user = makeobject(keys, values);
-    
+    result.user = getRowData(userRow,"user");
+    result.role = getRowData(roleRow,role);  
   }
 
   else if (event.parameter.action == "update") {
