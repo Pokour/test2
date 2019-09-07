@@ -6,6 +6,7 @@ var app = SpreadsheetApp;
 var ss = app.openById(sheetId);
 
 var result = {};
+
 result.user = {};
 result.role = {};
 result.library = [];
@@ -13,9 +14,9 @@ result.workshop = {};
 result.courses = {};
 
 // This function takes 2 arrays and convert into object with key and value from arrays and return object
-function makeObject(keys, values) {
+function makeObject(keys, values, lastColumn) {
   var obj = {};
-  for (var i = 0; i < lastColumn; i++) {
+  for ( i = 0; i < lastColumn; i++) {
     obj[keys[i]] = values[i];
   }
   Logger.log(obj);
@@ -33,20 +34,26 @@ function getRowData (pointer, targetSheet) {
     .getRange(pointer, 1, 1, lastColumn)
     .getValues();
   var rowData = rowDataMultiA[0];
-  return makeObject(heading,rowData);
+  return makeObject(heading,rowData,lastColumn);
 }
 
 function getlibraryData(library){
   // Converting the Library Pointer string to an array of integer      
-  var strVale = "23,45,65";
+  var strVale = "24,37,41,68";
   var strArr = strVale.split(',');
   var intArr = [];
+  var multiObj = {};
   for (i = 0; i < strArr.length; i++) {
     intArr[i] = parseInt(strArr[i]).toFixed(0);
   }
-  Logger.log(strArr);
   Logger.log(intArr);
+
+  for(i = 0; i < strArr.length; i++){
+    setTimeout (( multiObj[i] = getRowData(intArr[i],"library")), 500);
+  }
+  return multiObj;
 }
+
 
 function doGet(event) {
 
@@ -58,7 +65,7 @@ function doGet(event) {
   if (event.parameter.action == "read") {
     // role , requestStatus , userPointer , rolePointer , library
     result.user     = getRowData(userRow,"users");
-    result.role     = getRowData(roleRow,"student");
+    result.role     = getRowData(roleRow,role);
     result.library  = getlibraryData(library);
   }
 
