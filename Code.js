@@ -23,18 +23,36 @@ function doGet(event) {
     // role , requestStatus , userPointer , rolePointer , library
     result.user     = getRowData(userRow,"users");
     result.role     = getRowData(roleRow,role);
-    
+    return callBack();  
   }
 
   else if (event.parameter.action == "update") {
+
+    // get the heading and row data from the pointers, we get the sequence of data
+    var heading  = getHeadings(role);
+    var newDataArray = [];
+
+    // sequence the data recieved from the parameter into an array using the header sequence
+    for(i = 0; i<= heading.length; i++){
+      newDataArray[i] = event.parameter.heading[i];
+    }
+
+    // append the role sheet with updated data
 
   }
   else if (event.parameter.action == "write") {
 
   }
+}
 
-  return callBack();
-
+function getHeadings(role){
+  var sheet = ss.getSheetByName(role);
+  var lastColumn = sheet.getLastColumn();
+  var rowHeadingMultiA = sheet
+    .getRange(1,1,1,lastColumn)
+    .getValues();
+  var heading = rowHeadingMultiA[0];    
+  return heading;
 }
 
 // This function takes 2 arrays and convert into object with key and value from arrays and return object
