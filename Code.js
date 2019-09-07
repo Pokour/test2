@@ -42,6 +42,23 @@ function getlibraryData(library){
   var strVale = "24,37,41,68";
   var strArr = strVale.split(',');
   var intArr = [];
+  var multiObj = {};
+  for (i = 0; i < strArr.length; i++) {
+    intArr[i] = parseInt(strArr[i]).toFixed(0);
+  }
+  Logger.log(intArr);
+
+  for(i = 0; i < strArr.length; i++){
+    setTimeout (( multiObj[i] = getRowData(intArr[i],"library")), 500);
+  }
+  return multiObj;
+}
+
+function getlibraryData(library){
+  // Converting the Library Pointer string to an array of integer      
+  var strVale = "24,37,41,68";
+  var strArr = strVale.split(',');
+  var intArr = [];
   var multiObj = [];
   for (i = 0; i < strArr.length; i++) {
     intArr[i] = parseInt(strArr[i]).toFixed(0);
