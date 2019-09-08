@@ -43,14 +43,15 @@ function doGet(event) {
     var newDataArray = [];
 
     // sequence the data recieved from the parameter into an array using the header sequence
-    for(i = 3; i<= heading.length; i++){
-      newDataArray[i] = event.parameters.heading[i];
+    for(i = 0; i< heading.length - firstColumn + 1; i++){
+      newDataArray[i] = event.parameters[heading[i+firstColumn-1]];
     }
 
     // append the role sheet with updated data
     var sheet = ss.getSheetByName(role);
-    var lastC = ss.getLastColumn();
+    var lastC = sheet.getLastColumn();
     var data = [newDataArray];
+    Logger.log(lastC);
     
     sheet.getRange(roleRow,firstColumn,1,lastC).setValues(data);
 
