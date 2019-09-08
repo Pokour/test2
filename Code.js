@@ -18,6 +18,15 @@ function doGet(event) {
   var roleRow = event.parameter.rolePointer;
   var library = event.parameter.library;
   var role    = event.parameter.role;
+  var firstColumn;
+  
+  Logger.log(role);
+
+
+  if(role == "student"){
+    firstColumn = 3;
+  }
+  
 
   if (event.parameter.action == "read") {
     // role , requestStatus , userPointer , rolePointer , library
@@ -30,14 +39,20 @@ function doGet(event) {
 
     // get the heading and row data from the pointers, we get the sequence of data
     var heading  = getHeadings(role);
+    Logger.log(heading);
     var newDataArray = [];
 
     // sequence the data recieved from the parameter into an array using the header sequence
-    for(i = 0; i<= heading.length; i++){
-      newDataArray[i] = event.parameter.heading[i];
+    for(i = 3; i<= heading.length; i++){
+      newDataArray[i] = event.parameters.heading[i];
     }
 
     // append the role sheet with updated data
+    var sheet = ss.getSheetByName(role);
+    var lastC = ss.getLastColumn();
+    var data = [newDataArray];
+    
+    sheet.getRange(roleRow,firstColumn,1,lastC).setValues(data);
 
   }
   else if (event.parameter.action == "write") {
