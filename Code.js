@@ -35,7 +35,7 @@ function doGet(event) {
   else if (event.parameter.action == "update") {
 
     var studentHeading = ['add1','add2','add3','city','state','pincode','mobile','altmobile','instituteselected','institutelisted','institute','standard','interest1','interest2','interest3','dob'];
-    collaboratorHeading = [];
+    var collaboratorHeading = ['add1', 'add2', 'add3', 'city', 'state', 'pincode', 'mobile', 'altmobile', 'instituteselected', 'institutelisted', 'institute', 'collegeselected', 'collegelisted', 'college', 'Degree', 'startdate', 'enddate', 'interest1', 'interest2', 'interest3', 'dob'];
     instituteHeading = [];
     // get the heading and row data from the pointers, we get the sequence of data
     var heading  = getHeadings(role);
