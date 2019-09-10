@@ -13,62 +13,58 @@ result.workshop = {};
 result.courses = {};
 
 function doGet(event) {
-
   var userRow = event.parameter.userPointer;
   var roleRow = event.parameter.rolePointer;
   var library = event.parameter.library;
   var role    = event.parameter.role;
-  var firstColumn;  
-  Logger.log(role);
-
-  if (role == "student"){
-    firstColumn = 3;
-  }
+  var firstColumn = 3;
 
   if (event.parameter.action == "read") {
-    // role , requestStatus , userPointer , rolePointer , library
+// role , requestStatus , userPointer , rolePointer , library
     result.user     = getRowData(userRow,"users");
     result.role     = getRowData(roleRow,role);
     return callBack();  
   }
 
   else if (event.parameter.action == "update") {
-
+// Declare role headings to extract the query parameters || store param data into newDataArray[] || change columnLength according to the role
     var studentHeading = ['add1','add2','add3','city','state','pincode','mobile','altmobile','instituteselected','institutelisted','institute','standard','interest1','interest2','interest3','dob'];
     var collaboratorHeading = ['add1', 'add2', 'add3', 'city', 'state', 'pincode', 'mobile', 'altmobile', 'instituteselected', 'institutelisted', 'institute', 'collegeselected', 'collegelisted', 'college', 'Degree', 'startdate', 'enddate', 'interest1', 'interest2', 'interest3', 'dob'];
-    instituteHeading = [];
-    // get the heading and row data from the pointers, we get the sequence of data
-    var heading  = getHeadings(role);
-    Logger.log(heading);
-    var newDataArray = [];
+    var instituteHeading = ['add1','add2','add3', 'city', 'state', 'pincode', 'office', 'officeemail', 'officephone', 'principal', 'principalemail', 'principalphone', 'poc', 'pocemail', 'pocphone'];
 
-    // sequence the data recieved from the parameter into an array using the header sequence
-    for(i = 0; i< studentHeading.length; i++){
-      newDataArray[i] = event.parameters[studentHeading[i]];
+// Variable to store the data recieved from the query param to the array newDataArray[] || Update the columnLength according to the role
+    var newDataArray = [];
+    var columnLength = 1;
+
+// Checking the role and assingning the key to the heading for the required role || assingning the colum number according to the role
+    if(role == 'student'){
+      var heading  = studentHeading;
+      columnLength = 16;
+    }else if (role == 'collaborator'){
+      var heading  = collaboratorHeading;
+      columnLength = 16;
+    }else if (role == 'institute'){
+      var heading  = instituteHeading;
+      columnLength = 16;
     }
 
-    // append the role sheet with updated data
+// Looping the newDataArray to get the the param data into the array using the key from heading
+    for(i = 0; i< heading.length; i++){
+      newDataArray[i] = event.parameters[heading[i]];
+    }
+
+// Append the data to the sheet row
     var sheet = ss.getSheetByName(role);
-    var lastC = sheet.getLastColumn();
-    var data = [newDataArray];
-    Logger.log(lastC);
+    var data = [newDataArray];    
+    sheet.getRange(roleRow,firstColumn,1,columnLength).setValues(data);
     
-    sheet.getRange(roleRow,firstColumn,1,16).setValues(data);
+// This will generate a data set to be returned to the request start point confirming the update process execution state
+// Generate a metadata confirming te update operation.
 
   }
   else if (event.parameter.action == "write") {
 
   }
-}
-
-function getHeadings(role){
-  var sheet = ss.getSheetByName(role);
-  var lastColumn = sheet.getLastColumn();
-  var rowHeadingMultiA = sheet
-    .getRange(1,1,1,lastColumn)
-    .getValues();
-  var heading = rowHeadingMultiA[0];    
-  return heading;
 }
 
 // This function takes 2 arrays and convert into object with key and value from arrays and return object
