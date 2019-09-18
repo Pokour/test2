@@ -120,31 +120,31 @@ function updateSheet(event) {
   sheet.getRange(roleRow, firstColumn, 1, headLength).setValues(dataarray);
 }
 
-function writeToSheet(event) {  
-  writeToUser (event);
-  writeTorole (event);
+function writeToSheet(event) {
+  writeToUser(event);
+  writeTorole(event);
 }
 
-function writeToUser (event) {
+function writeToUser(event) {
   var ulength = userHeaading.length;
-  var temp=[];
-  var dataarray=[[]];
-  for(i=0 ; i < ulength ; i++ ) {
-   temp[i] = event.parameter[userHeaading[i]];
+  var temp = [];
+  var dataarray = [[]];
+  for (i = 0; i < ulength; i++) {
+    temp[i] = event.parameter[userHeaading[i]];
   }
   dataarray[0] = temp;
   sheet = ss.getSheetByName("users");
   var lastRow = sheet.getLastRow();
   sheet.getRange(lastRow, firstColumn, 1, ulength).setValues(dataarray);
-  
-  
+
+
 }
 
-function writeTorole (event) {
+function writeTorole(event) {
   var rlength = headLength;
   var temp = [];
   var dataarray = [[]];
-  for(i=0 ; i < rlength ; i++) {
+  for (i = 0; i < rlength; i++) {
     temp[i] = event.parameter[heading[i]];
   }
   dataarray[0] = temp;
