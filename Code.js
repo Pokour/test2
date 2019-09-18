@@ -120,21 +120,37 @@ function updateSheet(event) {
   sheet.getRange(roleRow, firstColumn, 1, headLength).setValues(dataarray);
 }
 
-function writeToSheet(event) {
+function writeToSheet(event) {  
+  writeToUser (event);
+  writeTorole (event);
+}
+
+function writeToUser (event) {
   var ulength = userHeaading.length;
   var temp=[];
   var dataarray=[[]];
   for(i=0 ; i < ulength ; i++ ) {
-    temp[i] = event.parameter[userHeaading[i]];
+   temp[i] = event.parameter[userHeaading[i]];
   }
   dataarray[0] = temp;
-  // get last row users
-  // get last row role sheet
-  
   sheet = ss.getSheetByName("users");
-  // Get last row | update first column etc
-  sheet.getRange(roleRow, firstColumn, 1, ulength).setValues(dataarray);
-  // return success after row append
+  var lastRow = sheet.getLastRow();
+  sheet.getRange(lastRow, firstColumn, 1, ulength).setValues(dataarray);
+  
+  
+}
+
+function writeTorole (event) {
+  var rlength = headLength;
+  var temp = [];
+  var dataarray = [[]];
+  for(i=0 ; i < rlength ; i++) {
+    temp[i] = event.parameter[heading[i]];
+  }
+  dataarray[0] = temp;
+  sheet = ss.getSheetByName(roleRecieved);
+  var lastRow = sheet.getLastRow();
+  sheet.getRange(lastRow, firstColumn, 1, rlength).setValues(dataarray);
 }
 
 function callBack() {
