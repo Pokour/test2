@@ -40,13 +40,13 @@ var headLength;
 
 //********************************************* doGet() STARTS HERE ********************************************* 
 function doGet(event) {
-
+  // Update the parametrs passed from the url to the global variables
   updateParameters(event);
-
+  // Update of parameters specific to the role selected
   updateRoleParametrs(roleRecieved);
-
+  // Action refers to the type of transaction requested
   takeAction(event);
-
+  // call back has to be updated according to the transaction requested
   return callBack();
 
 }
