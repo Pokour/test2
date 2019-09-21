@@ -10,6 +10,8 @@ Accepts GET request from WebApps using query parameters.
 
 // Defining all the Global variables
 var result = { users: {}, role: {}, workshop: {}, courses: {} };
+var writeReturn = { userRow: 0, roleRow: 0, state: "null" };
+var updateReturn = {userRow: 0, roleRow: 0, state: "null" };
 
 // Column names for differeny roles stored as array
 var studentHeading =
@@ -21,7 +23,6 @@ var collaboratorHeading =
 var instituteHeading =
   ['add1', 'add2', 'add3', 'city', 'state', 'pincode', 'office', 'officeemail', 'officephone', 'principal', 'principalemail',
     'principalphone', 'poc', 'pocemail', 'pocphone'];
-var userHeaading = [];
 
 var userRow = 0;
 var roleRow = 0;
@@ -37,6 +38,8 @@ var sheet = ss.getSheetByName("users");
 var heading = [];
 var firstColumn;
 var headLength;
+var lastRowUser=0;
+var lastRowRole=0;
 
 //********************************************* doGet() STARTS HERE ********************************************* 
 function doGet(event) {
@@ -118,6 +121,8 @@ function updateSheet(event) {
   dataarray[0] = temp;
   sheet = ss.getSheetByName(roleRecieved);
   sheet.getRange(roleRow, firstColumn, 1, headLength).setValues(dataarray);
+  updateReturn.roleRow = roleRow;
+  updateReturn.state = "DONE";
 }
 
 function writeToSheet(event) {
@@ -129,31 +134,45 @@ function writeToUser(event) {
   var ulength = userHeaading.length;
   var temp = [];
   var dataarray = [[]];
+  var uidarray = [event.parameter.uid];
+  sheet = ss.getSheetByName("users");
+  lastRowUser = sheet.getLastRow();
   for (i = 0; i < ulength; i++) {
     temp[i] = event.parameter[userHeaading[i]];
   }
+  temp = uidarray.concat(temp);
   dataarray[0] = temp;
-  sheet = ss.getSheetByName("users");
-  var lastRow = sheet.getLastRow();
-  sheet.getRange(lastRow, firstColumn, 1, ulength).setValues(dataarray);
-
-
+  sheet.getRange(lastRowUser, firstColumn - 1, 1, ulength + 1).setValues(dataarray);
+  writeReturn.userRow = lastRowUser;
+  writeReturn.state = "DONE"
 }
 
 function writeTorole(event) {
   var rlength = headLength;
   var temp = [];
   var dataarray = [[]];
+  var uidarray = [event.parameter.uid];
+  sheet = ss.getSheetByName(roleRecieved);
+  lastRowRole = sheet.getLastRow();
   for (i = 0; i < rlength; i++) {
     temp[i] = event.parameter[heading[i]];
   }
   dataarray[0] = temp;
-  sheet = ss.getSheetByName(roleRecieved);
-  var lastRow = sheet.getLastRow();
-  sheet.getRange(lastRow, firstColumn, 1, rlength).setValues(dataarray);
+  temp = uidarray.concat(temp);
+  sheet.getRange(lastRowRole, firstColumn - 1, 1, rlength + 1).setValues(dataarray);
+  writeReturn.roleRow = lastRowRole;
+  writeReturn.state = "DONE"
 }
 
 function callBack() {
-  return ContentService.createTextOutput(JSON.stringify(result))
+  if(actionRequested == "read") {
+    return ContentService.createTextOutput(JSON.stringify(result))
     .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }else if (actionRequested == "update") {
+    return ContentService.createTextOutput(JSON.stringify(updateReturn))
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }else if (actionRequested == "write") {
+    return ContentService.createTextOutput(JSON.stringify(updateReturn))
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
 }
