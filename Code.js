@@ -13,7 +13,7 @@ var result = { users: {}, role: {}, workshop: {}, courses: {} };
 var writeReturn = { userRow: 0, roleRow: 0, state: "null" };
 var updateReturn = { userRow: 0, roleRow: 0, state: "null" };
 
-// Column names for different roles stored as an array
+// Column names for differeny roles stored as array
 var studentHeading =
   ['add1', 'add2', 'add3', 'city', 'state', 'pincode', 'mobile', 'altmobile', 'instituteselected', 'institutelisted', 'institute',
     'standard', 'interest1', 'interest2', 'interest3', 'dob'];
