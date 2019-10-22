@@ -1,11 +1,11 @@
 /*
-author: Utsav Singh | email address | Contact Number
-Accepts GET request from WebApps using query parameters.
-1. Check for the role type: [student / collaborator / institution]
-2. updates global variables from the recieved data from query params.
-3. check for the action type from the query parameters action = [read / update / write]
-4. Logic to prform the required action on the sheet data.
-5. make an object with the return data to the WebApp using contentService()
+  ***************************  author: Utsav Singh | email address | Contact Number
+  ***************************  Accepts GET request from WebApps using query parameters.
+  ***************************  1. Check for the role type: [student / collaborator / institution]
+  ***************************  2. updates global variables from the recieved data from query params.
+  ***************************  3. check for the action type from the query parameters action = [read / update / write]
+  ***************************  4. Logic to perform the required action on the sheet data.
+  ***************************  5. make an object with the return data to the WebApp using contentService()
 */
 
 // Defining all the Global variables
